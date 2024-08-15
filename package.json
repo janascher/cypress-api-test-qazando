@@ -1,0 +1,15 @@
+{
+  "name": "cypress-api-test-qazando",
+  "version": "1.0.0",
+  "description": "Explorando os fundamentos de automação de testes de API com Cypress através do curso básico oferecido pela Qazando. Este repositório contém os materiais e códigos desenvolvidos durante o treinamento.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^13.13.3"
+  }
+}
