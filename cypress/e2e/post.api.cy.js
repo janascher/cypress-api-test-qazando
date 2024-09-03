@@ -14,15 +14,7 @@ describe('Cadastrar Dispositivo', () => {
             },
         };
 
-        cy.request({
-            method: 'POST',
-            url: '/objects',
-            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-            body: body,
-        }).as('postDeviceResult');
-
-        // validações
-        cy.get('@postDeviceResult').then((response) => {
+        cy.cadastrarDispositivo(body).then((response) => {
             // status code
             expect(response.status).equal(200);
 
@@ -55,6 +47,18 @@ describe('Cadastrar Dispositivo', () => {
             // tamanho do disco
             expect(response.body.data['Hard disk size']).equal('2 TB');
             expect(response.body.data['Hard disk size']).not.empty;
+        });
+    });
+
+    it('Cadastrar um dispositivo sem mandar dados', () => {
+        cy.cadastrarDispositivo('').then((response) => {
+            // status code
+            expect(response.status).equal(400);
+
+            // mensagem de erro
+            expect(response.body.error).equal(
+                '400 Bad Request. If you are trying to create or update the data, potential issue is that you are sending incorrect body json or it is missing at all.'
+            );
         });
     });
 });

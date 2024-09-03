@@ -4,14 +4,7 @@ describe('Buscar Dispositivos', () => {
     it('Buscar um dispositivo específico', () => {
         const device_id = '7';
 
-        cy.request({
-            method: 'GET',
-            url: `/objects/${device_id}`,
-            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-        }).as('getDeviceResult');
-
-        // validações
-        cy.get('@getDeviceResult').then((response) => {
+        cy.buscarDispositivoEspecífico(device_id).then((response) => {
             // status code
             expect(response.status).equal(200);
 
@@ -41,6 +34,17 @@ describe('Buscar Dispositivos', () => {
             // tamanho do disco
             expect(response.body.data['Hard disk size']).equal('1 TB');
             expect(response.body.data['Hard disk size']).not.empty;
+        });
+    });
+
+    it('Buscar um dispositivo inexistente', () => {
+        const device_id = 'buscando';
+
+        cy.buscarDispositivoEspecífico(device_id).then((response) => {
+            // status code
+            expect(response.status).equal(404);
+            // mensagem de erro
+            expect(response.body.error).equal(`Oject with id=${device_id} was not found.`);
         });
     });
 });
