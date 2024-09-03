@@ -28,7 +28,7 @@ describe('Alterar Dispositivo', () => {
 
         cy.request({
             method: 'POST',
-            url: 'https://api.restful-api.dev/objects',
+            url: '/objects',
             failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
             body: body_post,
         }).as('postDeviceResult');
@@ -46,7 +46,7 @@ describe('Alterar Dispositivo', () => {
             //
             cy.request({
                 method: 'PUT',
-                url: `https://api.restful-api.dev/objects/${response_post.body.id}`,
+                url: `/objects/${response_post.body.id}`,
                 failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
                 body: body_put,
             }).as('putDeviceResult');

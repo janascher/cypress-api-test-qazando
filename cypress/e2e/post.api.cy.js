@@ -16,7 +16,7 @@ describe('Cadastrar Dispositivo', () => {
 
         cy.request({
             method: 'POST',
-            url: 'https://api.restful-api.dev/objects',
+            url: '/objects',
             failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
             body: body,
         }).as('postDeviceResult');
