@@ -7,7 +7,7 @@ describe('Buscar Dispositivos', () => {
         cy.request({
             method: 'GET',
             url: `https://api.restful-api.dev/objects/${device_id}`,
-            followRedirect: false, // desativar o seguimento automático de redirecionamentos HTTP
+            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
         }).as('getDeviceResult');
 
         // validações

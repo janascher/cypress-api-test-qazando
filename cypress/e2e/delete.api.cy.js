@@ -15,7 +15,7 @@ describe('Deletar Dispositivo', () => {
         cy.request({
             method: 'POST',
             url: 'https://api.restful-api.dev/objects',
-            followRedirect: false, // desativar o seguimento automático de redirecionamentos HTTP
+            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
             body: body,
         }).as('postDeviceResult');
 
@@ -26,7 +26,7 @@ describe('Deletar Dispositivo', () => {
             cy.request({
                 method: 'DELETE',
                 url: `https://api.restful-api.dev/objects/${response_post.body.id}`,
-                followRedirect: false, // desativar o seguimento automático de redirecionamentos HTTP
+                failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
             }).as('deleteDeviceResult');
 
             // validações
@@ -38,6 +38,46 @@ describe('Deletar Dispositivo', () => {
                     `Object with id = ${response_post.body.id} has been deleted.`
                 );
             });
+        });
+    });
+
+    it('Deletar um dispositivo não existente', () => {
+        const id_not_exist = 'testando';
+
+        cy.request({
+            method: 'DELETE',
+            url: `https://api.restful-api.dev/objects/${id_not_exist}`,
+            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
+        }).as('deleteDeviceResult');
+
+        // validações
+        cy.get('@deleteDeviceResult').then((response_delete) => {
+            // status code
+            expect(response_delete.status).equal(404);
+            // mensagem de erro
+            expect(response_delete.body.error).equal(
+                `Object with id = ${id_not_exist} doesn't exist.`
+            );
+        });
+    });
+
+    it.only('Deletar um dispositivo de ID reservado', () => {
+        const reserved_id = 7;
+
+        cy.request({
+            method: 'DELETE',
+            url: `https://api.restful-api.dev/objects/${reserved_id}`,
+            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
+        }).as('deleteDeviceResult');
+
+        // validações
+        cy.get('@deleteDeviceResult').then((response_delete) => {
+            // status code
+            expect(response_delete.status).equal(405);
+            // mensagem de erro
+            expect(response_delete.body.error).equal(
+                `${reserved_id} is a reserved id and the data object of it cannot be deleted. You can create your own new object via POST request and try to send a DELETE request with new generated object id.`
+            );
         });
     });
 });
