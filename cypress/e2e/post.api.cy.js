@@ -1,20 +1,12 @@
 /// <reference types="cypress"/>
 
 describe('Cadastrar Dispositivo', () => {
+    const payload_cadastro_dispositivo = require('../fixtures/cadastrar_dispositivo_sucesso.json');
+
     it('Cadastrar um dispositivo', () => {
         const current_date = new Date().toISOString().slice(0, 16);
 
-        const body = {
-            name: 'Apple MacBook Pro 16',
-            data: {
-                year: 2020,
-                price: 1650.8,
-                'CPU model': 'Intel Core i9',
-                'Hard disk size': '2 TB',
-            },
-        };
-
-        cy.cadastrarDispositivo(body).then((response) => {
+        cy.cadastrarDispositivo(payload_cadastro_dispositivo).then((response) => {
             // status code
             expect(response.status).equal(200);
 

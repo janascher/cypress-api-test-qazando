@@ -43,6 +43,7 @@ describe('Buscar Dispositivos', () => {
         cy.buscarDispositivoEspecífico(device_id).then((response) => {
             // status code
             expect(response.status).equal(404);
+            
             // mensagem de erro
             expect(response.body.error).equal(`Oject with id=${device_id} was not found.`);
         });
