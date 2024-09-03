@@ -1,18 +1,9 @@
 /// <reference types="cypress"/>
 
 describe('Deletar Dispositivo', () => {
+    const payload_cadastro_dispositivo = require('../fixtures/cadastrar_dispositivo_sucesso.json');
     it('Deletar um dispositivo', () => {
-        const body = {
-            name: 'Apple MacBook Pro 16',
-            data: {
-                year: 2020,
-                price: 1650.8,
-                'CPU model': 'Intel Core i9',
-                'Hard disk size': '2 TB',
-            },
-        };
-
-        cy.cadastrarDispositivo(body).then((response_post) => {
+        cy.cadastrarDispositivo(payload_cadastro_dispositivo).then((response_post) => {
             expect(response_post.status).equal(200);
 
             // pega o resultado do cadastro para pegar o id

@@ -1,0 +1,9 @@
+{
+    "name": "Apple MacBook Pro 16",
+    "data": {
+        "year": 2020,
+        "price": 1650.8,
+        "CPU model": "Intel Core i9",
+        "Hard disk size": "2 TB"
+    }
+}
