@@ -10,7 +10,47 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('buscarDispositivoEspecífico', (device_id) => {
+    cy.request({
+        method: 'GET',
+        url: `/objects/${device_id}`,
+        failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
+    }).then((response) => {
+        return response;
+    });
+});
+
+Cypress.Commands.add('cadastrarDispositivo', (payload) => {
+    cy.request({
+        method: 'POST',
+        url: '/objects',
+        failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
+        body: payload,
+    }).then((response) => {
+        return response;
+    });
+});
+
+Cypress.Commands.add('deletarDispositivo', (id) => {
+    cy.request({
+        method: 'DELETE',
+        url: `https://api.restful-api.dev/objects/${id}`,
+        failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
+    }).then((response) => {
+        return response;
+    });
+});
+
+Cypress.Commands.add('atualizarDispositivo', (id, payload) => {
+    cy.request({
+        method: 'PUT',
+        url: `/objects/${id}`,
+        failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
+        body: payload,
+    }).then((response) => {
+        return response;
+    });
+});
 //
 //
 // -- This is a child command --

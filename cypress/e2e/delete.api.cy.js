@@ -12,25 +12,11 @@ describe('Deletar Dispositivo', () => {
             },
         };
 
-        cy.request({
-            method: 'POST',
-            url: 'https://api.restful-api.dev/objects',
-            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-            body: body,
-        }).as('postDeviceResult');
-
-        cy.get('@postDeviceResult').then((response_post) => {
+        cy.cadastrarDispositivo(body).then((response_post) => {
             expect(response_post.status).equal(200);
 
             // pega o resultado do cadastro para pegar o id
-            cy.request({
-                method: 'DELETE',
-                url: `https://api.restful-api.dev/objects/${response_post.body.id}`,
-                failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-            }).as('deleteDeviceResult');
-
-            // validações
-            cy.get('@deleteDeviceResult').then((response_delete) => {
+            cy.deletarDispositivo(response_post.body.id).then((response_delete) => {
                 // status code
                 expect(response_delete.status).equal(200);
                 // mensagem
@@ -44,14 +30,7 @@ describe('Deletar Dispositivo', () => {
     it('Deletar um dispositivo não existente', () => {
         const id_not_exist = 'testando';
 
-        cy.request({
-            method: 'DELETE',
-            url: `/objects/${id_not_exist}`,
-            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-        }).as('deleteDeviceResult');
-
-        // validações
-        cy.get('@deleteDeviceResult').then((response_delete) => {
+        cy.deletarDispositivo(id_not_exist).then((response_delete) => {
             // status code
             expect(response_delete.status).equal(404);
             // mensagem de erro
@@ -64,14 +43,7 @@ describe('Deletar Dispositivo', () => {
     it('Deletar um dispositivo de ID reservado', () => {
         const reserved_id = 7;
 
-        cy.request({
-            method: 'DELETE',
-            url: `/objects/${reserved_id}`,
-            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-        }).as('deleteDeviceResult');
-
-        // validações
-        cy.get('@deleteDeviceResult').then((response_delete) => {
+        cy.deletarDispositivo(reserved_id).then((response_delete) => {
             // status code
             expect(response_delete.status).equal(405);
             // mensagem de erro

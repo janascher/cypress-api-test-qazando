@@ -26,14 +26,7 @@ describe('Alterar Dispositivo', () => {
             },
         };
 
-        cy.request({
-            method: 'POST',
-            url: '/objects',
-            failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-            body: body_post,
-        }).as('postDeviceResult');
-
-        cy.get('@postDeviceResult').then((response_post) => {
+        cy.cadastrarDispositivo(body_post).then((response_post) => {
             // status code
             expect(response_post.status).equal(200);
             // nome
@@ -43,16 +36,7 @@ describe('Alterar Dispositivo', () => {
             // data do registro
             expect(response_post.body.createdAt.slice(0, 16)).equal(current_date);
 
-            //
-            cy.request({
-                method: 'PUT',
-                url: `/objects/${response_post.body.id}`,
-                failOnStatusCode: false, // não falhar automaticamente em status diferentes de 2xx ou 3xx
-                body: body_put,
-            }).as('putDeviceResult');
-
-            // validações do PUT
-            cy.get('@putDeviceResult').then((response_put) => {
+            cy.atualizarDispositivo(response_post.body.id, body_put).then((response_put) => {
                 // status code
                 expect(response_put.status).equal(200);
                 // nome
